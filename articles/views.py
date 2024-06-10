@@ -1,15 +1,9 @@
-from django.views.generic import ListView
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Article
 
-from articles.models import Article
-
-
-def articles_list(request):
-    template = 'articles/news.html'
-    context = {}
-
-    # используйте этот параметр для упорядочивания результатов
-    # https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.order_by
-    ordering = '-published_at'
-
-    return render(request, template, context)
+def article_detail(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    context = {
+        'article': article,
+    }
+    return render(request, 'article_detail.html', context)
